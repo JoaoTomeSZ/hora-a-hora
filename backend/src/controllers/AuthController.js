@@ -1,0 +1,24 @@
+const AuthService = require('../services/AuthService');
+
+module.exports = {
+        async login(req, res){
+                const {email, password} = req.body;
+                try{
+                        const token = await AuthService.login(email, password);
+                        return res.json({token})
+                } catch (error){
+                        return res.status(401).json({error: error.message})
+                }
+        },
+
+        async register(req, res){
+                const {nome, email, password} = req.body;
+
+                try{
+                        const user = await AuthService.register(nome, email, password);
+                        return res.status(201).json(user);
+                } catch(error){
+                        return res.status(400).json({error: error.message});
+                }
+        }
+}
